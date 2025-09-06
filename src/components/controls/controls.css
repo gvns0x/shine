@@ -1,0 +1,51 @@
+.controls {
+    color: white;
+    background-color: red;
+    height: fit-content;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.controls input, select {
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    background-color: #fff;
+    color: #000;
+}
+.slider-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 4px 4px 4px 0;
+    margin-right: -24px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.slider-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+}
+
+.slider-option {
+    padding: 16px 16px;
+    min-width: 32px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.slider-option.selected {
+    background-color: #000;
+    color: #fff;
+}
+
+
