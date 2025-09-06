@@ -4,6 +4,15 @@
   background-color: #000;
   height: 100vh;
   flex-direction: column;
+  align-items: center;
+}
+
+.AppContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  max-width: 500px;
 }
 
 .App-logo {

@@ -18,8 +18,10 @@ function App() {
 
   return (
     <div className="App">
+      <div className='AppContainer'>
       <Display values={values}/>
       <Controls onValuesChange={handleValuesChange}/>
+      </div>
     </div>
   );
 }

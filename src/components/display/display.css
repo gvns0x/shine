@@ -16,12 +16,12 @@
     font-size: 32px;
     line-height: 1.6;
     margin-bottom: 24px;
-    color: #333;
+    color: rgba(0,0,0,0.7);
 }
 
 .highlight {
     font-weight: bold;
-    color: #2196F3;
+    color: #000;
 }
 
 .difference {

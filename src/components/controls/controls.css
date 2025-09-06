@@ -40,7 +40,7 @@
 
 .slider-option {
     padding: 16px 16px;
-    min-width: 32px;
+    min-width: 40px;
     background-color: rgba(255,255,255,0.15);
     color: #fff;
     border-radius: 8px;
@@ -53,6 +53,14 @@
     transform:scale(.95);
 }
 
+input:active {
+    transform:scale(.99);
+}
+
+input:focus {
+    outline: 1px solid #fff;
+}
+
 .slider-option:nth-child(1) {
     margin-left: 24px;
 }
@@ -63,6 +71,7 @@
 
 .slider-option.selected {
     background-color: rgba(255,255,255,0.8);
+    font-weight: 600;
     color: #000;
 }
 
