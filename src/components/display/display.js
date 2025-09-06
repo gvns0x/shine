@@ -1,16 +1,21 @@
 import React from 'react';
 import './display.css';
 
-function Display({ values }) {
+function Display({ values, calculateRapPrice, getPricePerCarat }) {
   const { carat = '', price = '', color = 'D', clarity = 'IF' } = values || {};
 
-  // Constants
-  const RAP_PRICE = 190000;
+  // Calculate dynamic rap price
+  const RAP_PRICE = calculateRapPrice ? calculateRapPrice(carat, color, clarity) : 0;
 
-  // Calculate price per carat
-  const calculatePricePerCarat = () => {
+  // Calculate price per carat from seller price
+  const calculateSellerPricePerCarat = () => {
     if (!price || !carat || carat <= 0) return 0;
     return parseFloat(price) / (88.5 * parseFloat(carat));
+  };
+
+  // Get rap price per carat from diamond data
+  const getRapPricePerCarat = () => {
+    return getPricePerCarat ? getPricePerCarat(carat, color, clarity) : 0;
   };
 
   // Calculate percentage difference
@@ -38,7 +43,8 @@ function Display({ values }) {
     }
   };
 
-  const pricePerCarat = calculatePricePerCarat();
+  const sellerPricePerCarat = calculateSellerPricePerCarat();
+  const rapPricePerCarat = getRapPricePerCarat();
   const percentageDiff = calculatePercentageDifference();
   const isDiscount = percentageDiff < 0;
   const sign = isDiscount ? '-' : '+';
@@ -48,10 +54,10 @@ function Display({ values }) {
     <div className="display">
       <div className="display-content">
         <p className="main-statement">
-          Seller price per carat is <span className="highlight">${pricePerCarat.toFixed(2)}</span>. 
+          Seller price per carat is <span className="highlight">${sellerPricePerCarat.toFixed(2)}</span>. 
           That's <span className={`difference ${isDiscount ? 'discount' : 'premium'}`}>
             {sign}{absPercentage.toFixed(2)}%
-          </span> {isDiscount ? 'below' : 'above'} the rap.
+          </span> {isDiscount ? 'below' : 'above'} the rap (${rapPricePerCarat.toFixed(2)}).
         </p>
         
         <div className="price-breakdown">
