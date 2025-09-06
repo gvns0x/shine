@@ -15,7 +15,7 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
 
   // Get rap price per carat from diamond data
   const getRapPricePerCarat = () => {
-    return getPricePerCarat ? getPricePerCarat(carat, color, clarity) : 0;
+    return getPricePerCarat ? getPricePerCarat(carat, color, clarity) * 100 : 0;
   };
 
   // Calculate percentage difference
