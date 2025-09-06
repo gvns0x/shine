@@ -22,6 +22,22 @@ function Display({ values }) {
     return difference;
   };
 
+  // Format price in rupees with K/L units
+  const formatPriceInRupees = (priceValue) => {
+    if (!priceValue || priceValue === 0) return '₹0';
+    
+    const num = parseFloat(priceValue);
+    if (num >= 100000) {
+      // For lakhs (L)
+      return `₹${(num / 100000).toFixed(2)}L`;
+    } else if (num >= 1000) {
+      // For thousands (K)
+      return `₹${(num / 1000).toFixed(1)}K`;
+    } else {
+      return `₹${num}`;
+    }
+  };
+
   const pricePerCarat = calculatePricePerCarat();
   const percentageDiff = calculatePercentageDifference();
   const isDiscount = percentageDiff < 0;
@@ -41,11 +57,11 @@ function Display({ values }) {
         <div className="price-breakdown">
           <div className="price-item">
             <span className="label">Seller price:</span>
-            <span className="value">${price || '0'}</span>
+            <span className="value">{formatPriceInRupees(price)}</span>
           </div>
           <div className="price-item">
             <span className="label">Rap price:</span>
-            <span className="value">${RAP_PRICE.toLocaleString()}</span>
+            <span className="value">{formatPriceInRupees(RAP_PRICE)}</span>
           </div>
         </div>
       </div>

@@ -1,6 +1,5 @@
 .controls {
     color: white;
-    background-color: red;
     height: fit-content;
     padding: 24px;
     display: flex;
@@ -10,14 +9,19 @@
 
 .controls input, select {
     font-size: 18px;
-    padding: 8px;
+    padding: 8px 12px;
     border-radius: 8px;
     border: none;
     outline: none;
     height: 51px;
-    background-color: #fff;
-    color: #000;
+    background-color: rgba(255,255,255,0.15);
+    color: #fff;
 }
+
+.controls input::placeholder {
+    color: rgba(255,255,255,.3);
+}
+
 .slider-container {
     display: flex;
     overflow-x: auto;
@@ -37,12 +41,16 @@
 .slider-option {
     padding: 16px 16px;
     min-width: 32px;
-    background-color: #fff;
-    color: #000;
+    background-color: rgba(255,255,255,0.15);
+    color: #fff;
     border-radius: 8px;
     cursor: pointer;
     white-space: nowrap;
     user-select: none;
+}
+
+.slider-option:active {
+    transform:scale(.95);
 }
 
 .slider-option:nth-child(1) {
@@ -54,8 +62,8 @@
 }
 
 .slider-option.selected {
-    background-color: #000;
-    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    color: #000;
 }
 
 
