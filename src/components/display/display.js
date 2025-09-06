@@ -18,6 +18,31 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
     return getPricePerCarat ? getPricePerCarat(carat, color, clarity) * 100 : 0;
   };
 
+  // Check if carat is within available ranges
+  const isCaratInRange = () => {
+    const caratNum = parseFloat(carat);
+    if (!caratNum || caratNum <= 0) return false;
+    
+    return (caratNum >= 0.01 && caratNum <= 0.03) ||
+           (caratNum >= 0.04 && caratNum <= 0.07) ||
+           (caratNum >= 0.08 && caratNum <= 0.14) ||
+           (caratNum >= 0.15 && caratNum <= 0.17) ||
+           (caratNum >= 0.18 && caratNum <= 0.22) ||
+           (caratNum >= 0.23 && caratNum <= 0.29) ||
+           (caratNum >= 0.30 && caratNum <= 0.39) ||
+           (caratNum >= 0.40 && caratNum <= 0.49) ||
+           (caratNum >= 0.50 && caratNum <= 0.69) ||
+           (caratNum >= 0.70 && caratNum <= 0.89) ||
+           (caratNum >= 0.90 && caratNum <= 0.99) ||
+           (caratNum >= 1.00 && caratNum <= 1.49) ||
+           (caratNum >= 1.50 && caratNum <= 1.99) ||
+           (caratNum >= 2.00 && caratNum <= 2.99) ||
+           (caratNum >= 3.00 && caratNum <= 3.99) ||
+           (caratNum >= 4.00 && caratNum <= 4.99) ||
+           (caratNum >= 5.00 && caratNum <= 5.99) ||
+           (caratNum >= 10.00 && caratNum <= 10.99);
+  };
+
   // Calculate percentage difference
   const calculatePercentageDifference = () => {
     if (!price || parseFloat(price) === 0) return 0;
@@ -49,27 +74,37 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
   const isDiscount = percentageDiff < 0;
   const sign = isDiscount ? '-' : '+';
   const absPercentage = Math.abs(percentageDiff);
+  const caratInRange = isCaratInRange();
 
   return (
     <div className="display">
       <div className="display-content">
-        <p className="main-statement">
-          Seller price per carat is <span className="highlight">${sellerPricePerCarat.toFixed(2)}</span>. 
-          That's <span className={`difference ${isDiscount ? 'discount' : 'premium'}`}>
-            {sign}{absPercentage.toFixed(2)}%
-          </span> {isDiscount ? 'below' : 'above'} the rap (${rapPricePerCarat.toFixed(2)}).
-        </p>
-        
-        <div className="price-breakdown">
-          <div className="price-item">
-            <span className="label">Seller price:</span>
-            <span className="value">{formatPriceInRupees(price)}</span>
-          </div>
-          <div className="price-item">
-            <span className="label">Rap price:</span>
-            <span className="value">{formatPriceInRupees(RAP_PRICE)}</span>
-          </div>
-        </div>
+        {!caratInRange && carat ? (
+          <p className="main-statement">
+            <span className="highlight">Carat {carat} is outside available ranges.</span><br/>
+            Available ranges: 0.01-0.03, 0.04-0.07, 0.08-0.14, 0.15-0.17, 0.18-0.22, 0.23-0.29, 0.30-0.39, 0.40-0.49, 0.50-0.69, 0.70-0.89, 0.90-0.99, 1.00-1.49, 1.50-1.99, 2.00-2.99, 3.00-3.99, 4.00-4.99, 5.00-5.99, 10.00-10.99
+          </p>
+        ) : (
+          <>
+            <p className="main-statement">
+              Seller price per carat is <span className="highlight">${sellerPricePerCarat.toFixed(2)}</span>. 
+              That's <span className={`difference ${isDiscount ? 'discount' : 'premium'}`}>
+                {sign}{absPercentage.toFixed(2)}%
+              </span> {isDiscount ? 'below' : 'above'} the rap (${rapPricePerCarat.toFixed(2)}).
+            </p>
+            
+            <div className="price-breakdown">
+              <div className="price-item">
+                <span className="label">Seller price:</span>
+                <span className="value">{formatPriceInRupees(price)}</span>
+              </div>
+              <div className="price-item">
+                <span className="label">Rap price:</span>
+                <span className="value">{formatPriceInRupees(RAP_PRICE)}</span>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
