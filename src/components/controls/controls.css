@@ -75,4 +75,45 @@ input:focus {
     color: #000;
 }
 
+.price-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.price {
+    flex: 1;
+}
+
+.price-unit-toggle {
+    display: flex;
+    gap: 4px;
+}
+
+.unit-btn {
+    padding: 8px 12px;
+    background-color: rgba(255,255,255,0.15);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    min-width: 40px;
+    transition: all 0.2s ease;
+}
+
+.unit-btn:hover {
+    background-color: rgba(255,255,255,0.25);
+}
+
+.unit-btn:active {
+    transform: scale(0.95);
+}
+
+.unit-btn.selected {
+    background-color: rgba(255,255,255,0.8);
+    color: #000;
+}
+
 
