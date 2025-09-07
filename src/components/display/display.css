@@ -51,6 +51,11 @@
     background-color: #FFEBEE;
 }
 
+.difference.amber {
+    color: #FF9800;
+    background-color: #FFF3E0;
+}
+
 .price-breakdown {
     display: flex;
     flex-direction: column;

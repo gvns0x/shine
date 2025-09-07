@@ -76,6 +76,17 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
   const absPercentage = Math.abs(percentageDiff);
   const caratInRange = isCaratInRange();
 
+  // Determine color class based on percentage difference
+  const getDifferenceClass = () => {
+    if (percentageDiff > 0) {
+      return 'premium'; // Red for above RAP
+    } else if (percentageDiff <= -20) {
+      return 'discount'; // Green for -20% or more below RAP
+    } else {
+      return 'amber'; // Amber for between 0% and -20% below RAP
+    }
+  };
+
   return (
     <div className="display">
       <div className="display-content">
@@ -84,7 +95,7 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
           Seller price per carat is <span className="highlight">
             {caratInRange ? `$${sellerPricePerCarat.toFixed(2)}` : '—'}
           </span>. 
-          That's <span className={`difference ${isDiscount ? 'discount' : 'premium'}`}>
+          That's <span className={`difference ${getDifferenceClass()}`}>
             {caratInRange ? `${sign}${absPercentage.toFixed(2)}%` : '—'}
           </span> {caratInRange ? (isDiscount ? 'below' : 'above') : ''} the rap ({caratInRange ? `$${rapPricePerCarat.toFixed(2)}` : '—'}).
         </p>

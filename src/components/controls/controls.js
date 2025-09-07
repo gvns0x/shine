@@ -12,7 +12,11 @@ const Controls = ({ onValuesChange }) => {
     const clarityOptions = ['IF', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'SI3', 'I1', 'I2', 'I3'];
 
     const handleCaratChange = (e) => {
-        const newCarat = e.target.value.replace(',', '.'); // Convert comma to dot
+        let newCarat = e.target.value.replace(',', '.'); // Convert comma to dot
+        // Ensure we have a valid number format
+        if (newCarat && !isNaN(newCarat)) {
+            newCarat = parseFloat(newCarat).toString();
+        }
         setCarat(newCarat);
         if (onValuesChange) {
             // Convert current price based on selected unit
@@ -29,7 +33,11 @@ const Controls = ({ onValuesChange }) => {
     };
 
     const handlePriceChange = (e) => {
-        const newPrice = e.target.value.replace(',', '.'); // Convert comma to dot
+        let newPrice = e.target.value.replace(',', '.'); // Convert comma to dot
+        // Ensure we have a valid number format
+        if (newPrice && !isNaN(newPrice)) {
+            newPrice = parseFloat(newPrice).toString();
+        }
         setPrice(newPrice);
         
         // Convert price based on selected unit
@@ -102,9 +110,8 @@ const Controls = ({ onValuesChange }) => {
                 placeholder='ct' 
                 value={carat}
                 onChange={handleCaratChange}
-                type="number"
+                type="text"
                 inputMode="decimal"
-                step="any"
                 lang="en-US"
             ></input>
             
@@ -138,9 +145,8 @@ const Controls = ({ onValuesChange }) => {
                     placeholder='price' 
                     value={price}
                     onChange={handlePriceChange}
-                    type="number"
+                    type="text"
                     inputMode="decimal"
-                    step="any"
                     lang="en-US"
                 ></input>
                 <div className='price-unit-toggle'>
