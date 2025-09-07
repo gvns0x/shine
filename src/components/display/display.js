@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import html2canvas from 'html2canvas';
 import './display.css';
 
 function Display({ values, calculateRapPrice, getPricePerCarat }) {
   const { carat = '', price = '', color = 'D', clarity = 'IF' } = values || {};
+  const [isCapturing, setIsCapturing] = useState(false);
 
   // Calculate dynamic rap price
   const RAP_PRICE = calculateRapPrice ? calculateRapPrice(carat, color, clarity) : 0;
@@ -87,10 +89,71 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
     }
   };
 
+  // Screenshot functionality - mobile-friendly using html2canvas
+  const captureScreenshot = async () => {
+    setIsCapturing(true);
+    try {
+      // Get the display component element
+      const displayElement = document.querySelector('.display');
+      
+      if (!displayElement) {
+        throw new Error('Display element not found');
+      }
+      
+      // Configure html2canvas options for better mobile compatibility
+      const canvas = await html2canvas(displayElement, {
+        backgroundColor: '#ffffff',
+        scale: 2, // Higher resolution
+        useCORS: true,
+        allowTaint: true,
+        scrollX: 0,
+        scrollY: 0,
+        width: displayElement.offsetWidth,
+        height: displayElement.offsetHeight
+      });
+      
+      // Convert canvas to blob and download
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          throw new Error('Failed to create image blob');
+        }
+        
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        // Create filename with seller name and diamond details
+        const sellerName = document.querySelector('.seller-name')?.value || 'Diamond';
+        const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
+        const filename = `${sellerName}_${carat}-${color}-${clarity}_${date}.png`;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 'image/png', 0.95);
+      
+    } catch (error) {
+      console.error('Error capturing screenshot:', error);
+      alert('Failed to capture screenshot. Please try again.');
+    } finally {
+      setIsCapturing(false);
+    }
+  };
+
   return (
     <div className="display">
       <div className="display-content">
-        <input className='seller-name' placeholder='Seller name'></input>
+        <div className="top-controls">
+          <input className='seller-name' placeholder='Seller name'></input>
+          <button 
+            className="screenshot-btn" 
+            onClick={captureScreenshot}
+            disabled={isCapturing}
+            title="Take screenshot"
+          >
+            {isCapturing ? '📸...' : '📸'}
+          </button>
+        </div>
         <p className="main-statement">
           Seller price per carat is <span className="highlight">
             {caratInRange ? `$${sellerPricePerCarat.toFixed(2)}` : '—'}
