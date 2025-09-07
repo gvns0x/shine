@@ -190,6 +190,7 @@ const Controls = ({ onValuesChange }) => {
                     inputMode="decimal"
                     lang="en-US"
                 ></input>
+                <div className='price-unit-toggle-container'>
                 <div className='price-unit-toggle'>
                     <button 
                         className={`unit-btn ${priceUnit === 'L' ? 'selected' : ''}`}
@@ -203,6 +204,7 @@ const Controls = ({ onValuesChange }) => {
                     >
                         K
                     </button>
+                </div>
                 </div>
             </div>
         </div>

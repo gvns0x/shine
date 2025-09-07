@@ -64,6 +64,10 @@ input:focus {
     outline: 1px solid #fff;
 }
 
+.controls input.price {
+    background-color: transparent
+}
+
 .slider-option:nth-child(1) {
     margin-left: 24px;
 }
@@ -82,20 +86,31 @@ input:focus {
     display: flex;
     gap: 8px;
     align-items: center;
+    justify-content: space-between;
+    font-size: 18px;
+    padding: 8px 0px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    height: 51px;
+    background-color: rgba(255,255,255,0.15);
+    color: #fff;
 }
 
 .price {
     flex: 1;
 }
 
+.price-unit-toggle-container {
+    padding: 8px;
+}
+
 .price-unit-toggle {
     display: flex;
     height: 100%;
     gap: 4px;
-    background-color: rgba(255,255,255,.1);
-    border-radius: 16px;
-    padding: 8px;
-    height: 51px;
+    border-radius: 10px;
+    padding:8px;
 }
 
 .unit-btn {
@@ -103,7 +118,7 @@ input:focus {
     background-color: transparent;
     color: #fff;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
