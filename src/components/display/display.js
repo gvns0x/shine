@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import html2canvas from 'html2canvas';
 import './display.css';
+import Logo from '../../images/rupee-logo.png';
+import ScreenshotIcon from '../../images/screenshot.svg'; 
 
 function Display({ values, calculateRapPrice, getPricePerCarat }) {
   const { carat = '', price = '', color = 'D', clarity = 'IF' } = values || {};
@@ -144,6 +146,9 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
     <div className="display">
       <div className="display-content">
         <div className="top-controls">
+            <div className='logo-container'>
+                <img className='logo-img' src={Logo}/>
+            </div>
           <input className='seller-name' placeholder='Seller name'></input>
           <button 
             className="screenshot-btn" 
@@ -151,7 +156,7 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
             disabled={isCapturing}
             title="Take screenshot"
           >
-            {isCapturing ? '📸...' : '📸'}
+            <img src={ScreenshotIcon} alt="Screenshot" className="screenshot-icon" />
           </button>
         </div>
         <p className="main-statement">
