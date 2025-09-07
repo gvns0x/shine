@@ -64,12 +64,12 @@
     background-color: rgba(0,0,0,.03);
 }
 
-.screenshot-btn:hover:not(:disabled) {
-    transform: translateY(-1px);
-}
-
 .screenshot-btn:active:not(:disabled) {
     transform: translateY(0);
+}
+
+.screenshot-btn:active {
+    transform: scale(.95);
 }
 
 .screenshot-btn:disabled {
