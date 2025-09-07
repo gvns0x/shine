@@ -147,7 +147,7 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
       <div className="display-content">
         <div className="top-controls">
             <div className='logo-container'>
-                <img className='logo-img' src={Logo}/>
+                <img alt="Logo image of a diamond" className='logo-img' src={Logo}/>
             </div>
           <input className='seller-name' placeholder='Seller name'></input>
           <button 
