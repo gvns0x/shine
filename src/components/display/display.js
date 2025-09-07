@@ -149,7 +149,7 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
             <div className='logo-container'>
                 <img alt="Logo image of a diamond" className='logo-img' src={Logo}/>
             </div>
-          <input className='seller-name' placeholder='Seller name'></input>
+          <input className='seller-name' placeholder='Seller name' spellCheck="false"></input>
           <button 
             className="screenshot-btn" 
             onClick={captureScreenshot}
