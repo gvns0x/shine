@@ -79,31 +79,38 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
   return (
     <div className="display">
       <div className="display-content">
-        {!caratInRange && carat ? (
-          <p className="main-statement">
-            <span className="highlight">Select a carat, color, and clarity</span>
-          </p>
-        ) : (
-          <>
-            <p className="main-statement">
-              Seller price per carat is <span className="highlight">${sellerPricePerCarat.toFixed(2)}</span>. 
-              That's <span className={`difference ${isDiscount ? 'discount' : 'premium'}`}>
-                {sign}{absPercentage.toFixed(2)}%
-              </span> {isDiscount ? 'below' : 'above'} the rap (${rapPricePerCarat.toFixed(2)}).
-            </p>
-            
-            <div className="price-breakdown">
-              <div className="price-item">
-                <span className="label">Seller price:</span>
-                <span className="value">{formatPriceInRupees(price)}</span>
-              </div>
-              <div className="price-item">
-                <span className="label">Rap price:</span>
-                <span className="value">{formatPriceInRupees(RAP_PRICE)}</span>
-              </div>
-            </div>
-          </>
-        )}
+        <input className='seller-name' placeholder='Seller name'></input>
+        <p className="main-statement">
+          Seller price per carat is <span className="highlight">
+            {caratInRange ? `$${sellerPricePerCarat.toFixed(2)}` : '—'}
+          </span>. 
+          That's <span className={`difference ${isDiscount ? 'discount' : 'premium'}`}>
+            {caratInRange ? `${sign}${absPercentage.toFixed(2)}%` : '—'}
+          </span> {caratInRange ? (isDiscount ? 'below' : 'above') : ''} the rap ({caratInRange ? `$${rapPricePerCarat.toFixed(2)}` : '—'}).
+        </p>
+        
+        <div className="price-breakdown">
+          <div className="price-item">
+            <span className="label">Seller price:</span>
+            <span className="value">{formatPriceInRupees(price)}</span>
+          </div>
+          <div className="price-item">
+            <span className="label">Rap price:</span>
+            <span className="value">{caratInRange ? formatPriceInRupees(RAP_PRICE) : '—'}</span>
+          </div>
+          <div className="price-item">
+            <span className="label">Rap price with -10%:</span>
+            <span className="value">{caratInRange ? formatPriceInRupees(RAP_PRICE * 0.9) : '—'}</span>
+          </div>
+          <div className="price-item">
+            <span className="label">Rap price with -20%:</span>
+            <span className="value">{caratInRange ? formatPriceInRupees(RAP_PRICE * 0.8) : '—'}</span>
+          </div>
+          <div className="price-item">
+            <span className="label">Rap price with -30%:</span>
+            <span className="value">{caratInRange ? formatPriceInRupees(RAP_PRICE * 0.7) : '—'}</span>
+          </div>
+        </div>
       </div>
     </div>
   );

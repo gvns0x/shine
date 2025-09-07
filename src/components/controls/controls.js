@@ -12,7 +12,7 @@ const Controls = ({ onValuesChange }) => {
     const clarityOptions = ['IF', 'VVS1', 'VVS2', 'VS1', 'VS2', 'SI1', 'SI2', 'SI3', 'I1', 'I2', 'I3'];
 
     const handleCaratChange = (e) => {
-        const newCarat = e.target.value;
+        const newCarat = e.target.value.replace(',', '.'); // Convert comma to dot
         setCarat(newCarat);
         if (onValuesChange) {
             // Convert current price based on selected unit
@@ -29,7 +29,7 @@ const Controls = ({ onValuesChange }) => {
     };
 
     const handlePriceChange = (e) => {
-        const newPrice = e.target.value;
+        const newPrice = e.target.value.replace(',', '.'); // Convert comma to dot
         setPrice(newPrice);
         
         // Convert price based on selected unit
@@ -103,6 +103,9 @@ const Controls = ({ onValuesChange }) => {
                 value={carat}
                 onChange={handleCaratChange}
                 type="number"
+                inputMode="decimal"
+                step="any"
+                lang="en-US"
             ></input>
             
             <div className='slider-container'>
@@ -136,6 +139,9 @@ const Controls = ({ onValuesChange }) => {
                     value={price}
                     onChange={handlePriceChange}
                     type="number"
+                    inputMode="decimal"
+                    step="any"
+                    lang="en-US"
                 ></input>
                 <div className='price-unit-toggle'>
                     <button 
