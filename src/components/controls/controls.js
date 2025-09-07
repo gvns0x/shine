@@ -18,6 +18,11 @@ const Controls = ({ onValuesChange }) => {
     // Function to handle input focus and ensure visibility on mobile
     const handleInputFocus = (inputRef) => {
         if (inputRef.current) {
+            // Position cursor at the end of the input value
+            const input = inputRef.current;
+            const valueLength = input.value.length;
+            input.setSelectionRange(valueLength, valueLength);
+            
             // Add class to body to prevent scrolling on mobile
             document.body.classList.add('input-focused');
             
