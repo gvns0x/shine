@@ -81,8 +81,7 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
       <div className="display-content">
         {!caratInRange && carat ? (
           <p className="main-statement">
-            <span className="highlight">Carat {carat} is outside available ranges.</span><br/>
-            Available ranges: 0.01-0.03, 0.04-0.07, 0.08-0.14, 0.15-0.17, 0.18-0.22, 0.23-0.29, 0.30-0.39, 0.40-0.49, 0.50-0.69, 0.70-0.89, 0.90-0.99, 1.00-1.49, 1.50-1.99, 2.00-2.99, 3.00-3.99, 4.00-4.99, 5.00-5.99, 10.00-10.99
+            <span className="highlight">Select a carat, color, and clarity</span>
           </p>
         ) : (
           <>
