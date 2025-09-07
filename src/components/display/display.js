@@ -159,6 +159,9 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
             <img src={ScreenshotIcon} alt="Screenshot" className="screenshot-icon" />
           </button>
         </div>
+        <div className={`diamond-specs ${carat ? 'visible' : 'hidden'}`}>
+          {carat || '—'} <span className="bullet-color">•</span> {color} <span className="bullet-color">•</span> {clarity}
+        </div>
         <p className="main-statement">
           Seller price per carat is <span className="highlight">
             {caratInRange ? `$${sellerPricePerCarat.toFixed(2)}` : '—'}
@@ -170,23 +173,23 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
         
         <div className="price-breakdown">
           <div className="price-item">
-            <span className="label">Seller price:</span>
+            <span className="label">Seller price</span>
             <span className="value">{formatPriceInRupees(price)}</span>
           </div>
           <div className="price-item">
-            <span className="label">Rap price:</span>
+            <span className="label">Rap price</span>
             <span className="value">{caratInRange ? formatPriceInRupees(RAP_PRICE) : '—'}</span>
           </div>
           <div className="price-item">
-            <span className="label">Rap price with -10%:</span>
+            <span className="label">Rap price -10%</span>
             <span className="value">{caratInRange ? formatPriceInRupees(RAP_PRICE * 0.9) : '—'}</span>
           </div>
           <div className="price-item">
-            <span className="label">Rap price with -20%:</span>
+            <span className="label">Rap price -20%</span>
             <span className="value">{caratInRange ? formatPriceInRupees(RAP_PRICE * 0.8) : '—'}</span>
           </div>
           <div className="price-item">
-            <span className="label">Rap price with -30%:</span>
+            <span className="label">Rap price -30%</span>
             <span className="value">{caratInRange ? formatPriceInRupees(RAP_PRICE * 0.7) : '—'}</span>
           </div>
         </div>
