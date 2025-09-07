@@ -1,15 +1,19 @@
 .display {
-    height: 100%;
+    flex: 1; /* Take up remaining space */
     background-color: #fff;
     width: 100%;
     border-radius: 0px 0px 32px 32px;
     padding: 24px;
     box-sizing: border-box;
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    min-height: 0; /* Allow flex item to shrink below content size */
 }
 
 .display-content {
     max-width: 600px;
     margin: 0 auto;
+    min-height: 100%; /* Ensure content takes full height of container */
 }
 
 .top-controls {
