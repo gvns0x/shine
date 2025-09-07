@@ -13,7 +13,7 @@
 .controls input, select {
     font-size: 18px;
     padding: 8px 12px;
-    border-radius: 8px;
+    border-radius: 12px;
     border: none;
     outline: none;
     height: 51px;
@@ -46,7 +46,7 @@
     min-width: 40px;
     background-color: rgba(255,255,255,0.15);
     color: #fff;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     white-space: nowrap;
     user-select: none;
@@ -90,24 +90,24 @@ input:focus {
 
 .price-unit-toggle {
     display: flex;
+    height: 100%;
     gap: 4px;
+    background-color: rgba(255,255,255,.1);
+    border-radius: 16px;
+    padding: 8px;
+    height: 51px;
 }
 
 .unit-btn {
     padding: 8px 12px;
-    background-color: rgba(255,255,255,0.15);
+    background-color: transparent;
     color: #fff;
     border: none;
-    border-radius: 6px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
     min-width: 40px;
-    transition: all 0.2s ease;
-}
-
-.unit-btn:hover {
-    background-color: rgba(255,255,255,0.25);
 }
 
 .unit-btn:active {

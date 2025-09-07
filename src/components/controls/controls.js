@@ -143,7 +143,7 @@ const Controls = ({ onValuesChange }) => {
             <input 
                 ref={caratInputRef}
                 className='ct' 
-                placeholder='ct' 
+                placeholder='Carats' 
                 value={carat}
                 onChange={handleCaratChange}
                 onFocus={() => handleInputFocus(caratInputRef)}
@@ -181,7 +181,7 @@ const Controls = ({ onValuesChange }) => {
                 <input 
                     ref={priceInputRef}
                     className='price' 
-                    placeholder='price' 
+                    placeholder='Seller price' 
                     value={price}
                     onChange={handlePriceChange}
                     onFocus={() => handleInputFocus(priceInputRef)}
