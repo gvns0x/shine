@@ -167,3 +167,132 @@
     font-size: 16px;
     color: #333;
 }
+
+/* RAP Price Editing Styles */
+.rap-price-display {
+    transition: color 0.2s ease;
+}
+
+.rap-price-display.edited {
+    color: #2196F3; /* Blue color for edited values */
+}
+
+.rap-price-input {
+    background: transparent;
+    border: 2px solid #2196F3;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: inherit;
+    font-weight: inherit;
+    color: #2196F3;
+    width: 80px;
+    text-align: center;
+    outline: none;
+}
+
+.rap-price-input:focus {
+    border-color: #1976D2;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+/* Bottom Sheet Modal Styles */
+.bottom-sheet-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.bottom-sheet {
+    background: white;
+    border-radius: 16px 16px 0 0;
+    width: 100%;
+    max-width: 500px;
+    max-height: 50vh;
+    animation: slideUp 0.3s ease;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.bottom-sheet-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center;
+}
+
+.bottom-sheet-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.bottom-sheet-content {
+    padding: 16px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bottom-sheet-button {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #000;
+    color: #fff;
+}
+
+.bottom-sheet-button:active {
+    transform: translateY(0);
+}
+
+.bottom-sheet-button.secondary {
+    background-color: #fff;
+    color: #000;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+    .rap-price-input {
+        width: 100px;
+        font-size: 24px; /* Larger for mobile */
+    }
+    
+    .bottom-sheet {
+        max-height: 60vh;
+    }
+    
+    .bottom-sheet-button {
+        padding: 18px;
+        font-size: 18px;
+    }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import './display.css';
 import Logo from '../../images/rupee-logo.png';
@@ -7,9 +7,25 @@ import ScreenshotIcon from '../../images/screenshot.svg';
 function Display({ values, calculateRapPrice, getPricePerCarat }) {
   const { carat = '', price = '', color = 'D', clarity = 'IF' } = values || {};
   const [isCapturing, setIsCapturing] = useState(false);
+  const [customRapPricePerCarat, setCustomRapPricePerCarat] = useState(null);
+  const [isEditingRapPrice, setIsEditingRapPrice] = useState(false);
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
 
-  // Calculate dynamic rap price
-  const RAP_PRICE = calculateRapPrice ? calculateRapPrice(carat, color, clarity) : 0;
+  // Reset custom RAP price when carat, color, or clarity changes
+  useEffect(() => {
+    setCustomRapPricePerCarat(null);
+    setIsEditingRapPrice(false);
+    setShowBottomSheet(false);
+  }, [carat, color, clarity]);
+
+  // Get rap price per carat from diamond data
+  const getRapPricePerCarat = () => {
+    // Use custom override if available and valid (> 0), otherwise use data from diamond-prices.json
+    if (customRapPricePerCarat !== null && customRapPricePerCarat > 0) {
+      return customRapPricePerCarat;
+    }
+    return getPricePerCarat ? getPricePerCarat(carat, color, clarity) * 100 : 0;
+  };
 
   // Calculate price per carat from seller price
   const calculateSellerPricePerCarat = () => {
@@ -17,10 +33,14 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
     return parseFloat(price) / (88.5 * parseFloat(carat));
   };
 
-  // Get rap price per carat from diamond data
-  const getRapPricePerCarat = () => {
-    return getPricePerCarat ? getPricePerCarat(carat, color, clarity) * 100 : 0;
-  };
+  // Calculate dynamic rap price
+  const RAP_PRICE = (() => {
+    if (!carat) return 0;
+    const caratNum = parseFloat(carat);
+    const pricePerCarat = getRapPricePerCarat();
+    if (!pricePerCarat || !caratNum) return 0;
+    return pricePerCarat * 88.5 * caratNum;
+  })();
 
   // Check if carat is within available ranges
   const isCaratInRange = () => {
@@ -49,7 +69,7 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
 
   // Calculate percentage difference
   const calculatePercentageDifference = () => {
-    if (!price || parseFloat(price) === 0) return 0;
+    if (!price || parseFloat(price) === 0 || RAP_PRICE === 0) return 0;
     
     const sellerPrice = parseFloat(price);
     const difference = ((sellerPrice - RAP_PRICE) / RAP_PRICE) * 100;
@@ -142,6 +162,46 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
     }
   };
 
+  // Handle RAP price editing
+  const handleRapPriceClick = () => {
+    if (customRapPricePerCarat !== null) {
+      // Show bottom sheet for edited values
+      setShowBottomSheet(true);
+    } else {
+      // Start inline editing
+      setIsEditingRapPrice(true);
+    }
+  };
+
+  const handleRapPriceChange = (e) => {
+    const inputValue = e.target.value;
+    // Allow empty string or valid numbers (including 0)
+    if (inputValue === '' || !isNaN(parseFloat(inputValue))) {
+      const value = inputValue === '' ? null : parseFloat(inputValue);
+      setCustomRapPricePerCarat(value);
+    }
+  };
+
+  const handleRapPriceBlur = () => {
+    setIsEditingRapPrice(false);
+  };
+
+  const handleRapPriceKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      setIsEditingRapPrice(false);
+    }
+  };
+
+  const resetToRap = () => {
+    setCustomRapPricePerCarat(null);
+    setShowBottomSheet(false);
+  };
+
+  const editValue = () => {
+    setShowBottomSheet(false);
+    setIsEditingRapPrice(true);
+  };
+
   return (
     <div className="display">
       <div className="display-content">
@@ -167,8 +227,33 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
             {caratInRange ? `$${sellerPricePerCarat.toFixed(2)}` : '—'}
           </span>. 
           That's <span className={`difference ${getDifferenceClass()}`}>
-            {caratInRange ? `${sign}${absPercentage.toFixed(2)}%` : '—'}
-          </span> {caratInRange ? (isDiscount ? 'below' : 'above') : ''} the rap ({caratInRange ? `$${rapPricePerCarat.toFixed(2)}` : '—'}).
+            {caratInRange && RAP_PRICE > 0 ? `${sign}${absPercentage.toFixed(2)}%` : '—'}
+          </span> {caratInRange && RAP_PRICE > 0 ? (isDiscount ? 'below' : 'above') : ''} the rap (
+          {caratInRange ? (
+            isEditingRapPrice ? (
+              <input
+                type="number"
+                value={customRapPricePerCarat !== null ? customRapPricePerCarat : ''}
+                onChange={handleRapPriceChange}
+                onBlur={handleRapPriceBlur}
+                onKeyPress={handleRapPriceKeyPress}
+                className="rap-price-input"
+                autoFocus
+                step="0.01"
+                min="0"
+                placeholder={rapPricePerCarat.toFixed(2)}
+              />
+            ) : (
+              <span 
+                className={`rap-price-display ${customRapPricePerCarat !== null && customRapPricePerCarat > 0 ? 'edited' : ''}`}
+                onClick={handleRapPriceClick}
+                style={{ cursor: 'pointer' }}
+              >
+                {rapPricePerCarat > 0 ? `$${rapPricePerCarat.toFixed(2)}` : '—'} ✎
+              </span>
+            )
+          ) : '—'}
+          ).
         </p>
         
         <div className="price-breakdown">
@@ -178,22 +263,38 @@ function Display({ values, calculateRapPrice, getPricePerCarat }) {
           </div>
           <div className="price-item">
             <span className="label">Rap price</span>
-            <span className="value">{caratInRange ? formatPriceInRupees(RAP_PRICE) : '—'}</span>
+            <span className="value">{caratInRange && RAP_PRICE > 0 ? formatPriceInRupees(RAP_PRICE) : '—'}</span>
           </div>
           <div className="price-item">
             <span className="label">Rap price -10%</span>
-            <span className="value">{caratInRange ? formatPriceInRupees(RAP_PRICE * 0.9) : '—'}</span>
+            <span className="value">{caratInRange && RAP_PRICE > 0 ? formatPriceInRupees(RAP_PRICE * 0.9) : '—'}</span>
           </div>
           <div className="price-item">
             <span className="label">Rap price -20%</span>
-            <span className="value">{caratInRange ? formatPriceInRupees(RAP_PRICE * 0.8) : '—'}</span>
+            <span className="value">{caratInRange && RAP_PRICE > 0 ? formatPriceInRupees(RAP_PRICE * 0.8) : '—'}</span>
           </div>
           <div className="price-item">
             <span className="label">Rap price -30%</span>
-            <span className="value">{caratInRange ? formatPriceInRupees(RAP_PRICE * 0.7) : '—'}</span>
+            <span className="value">{caratInRange && RAP_PRICE > 0 ? formatPriceInRupees(RAP_PRICE * 0.7) : '—'}</span>
           </div>
         </div>
       </div>
+      
+      {/* Bottom Sheet Modal */}
+      {showBottomSheet && (
+        <div className="bottom-sheet-overlay" onClick={() => setShowBottomSheet(false)}>
+          <div className="bottom-sheet" onClick={(e) => e.stopPropagation()}>
+            <div className="bottom-sheet-content">
+            <button className="bottom-sheet-button " onClick={resetToRap}>
+                Reset rap
+              </button>
+              <button className="bottom-sheet-button secondary" onClick={editValue}>
+                Edit Value
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
